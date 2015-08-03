@@ -6,6 +6,7 @@ This is a temporary script file.
 """
 import sys
 import numpy as np
+import random
 
 #盤面描画
 def show_position(column, row, positions):
@@ -272,6 +273,16 @@ def next_posi_check(next_posi, next_dia, turnPlayer):
         ErrMSG = "ルール上打てる場所を選んでください。"
         return False, ErrMSG       
 
+#CPUアルごリズム_ランダム
+def get_next_posi_Randam(next_dia_all, turn):
+    next_posi_enable = []
+    for i in range(0,8):
+        for j in range(0,8):
+            if next_dia_all[i,j] == turn + 4:
+                next_posi_enable.append(str(Inv_columnList[j])+str(Inv_rowList[i]))
+
+    return random.choice(next_posi_enable)                
+
 #石の数をカウントする
 def stone_count_check(diagram):
     black = 0
@@ -291,6 +302,8 @@ condition = {'1':'人間',
              '2':'CPU'}
 columnList = {'a':0,'b':1,'c':2,'d':3,'e':4,'f':5,'g':6,'h':7}
 rowList = {'1':0,'2':1,'3':2,'4':3,'5':4,'6':5,'7':6,'8':7}
+Inv_columnList = {v:k for k, v in columnList.items()}
+Inv_rowList = {v:k for k, v in rowList.items()}
              
 #対局条件設定
 print("対局条件を入力してください。")
@@ -331,27 +344,29 @@ while(gameset == False):
         if turnPlayer == 1:
             print("先手の手番です。")
             if con_fir == 1:
-                print("石を置く位置を■から選んでください")
-                next_posi = str(input())
+                print("石を置く位置を入力してください")
+                next_posi = str(raw_input())
                 flag, EMsg = next_posi_check(next_posi, next_dia_all, turnPlayer)
                 while flag == False:
                     print(EMsg)
-                    next_posi = str(input())
+                    next_posi = str(raw_input())
                     flag, EMsg = next_posi_check(next_posi, next_dia_all, turnPlayer)
             else:
-                pass
+                next_posi = get_next_posi_Randam(next_dia_all, turnPlayer)
+                print(next_posi+"を着手します。")
         else:
             print("後手の手番です。")
             if con_sec == 1:
-                print("石を置く位置を□から選んでください")
-                next_posi = str(input())
+                print("石を置く位置を入力してください")
+                next_posi = str(raw_input())
                 flag, EMsg = next_posi_check(next_posi, next_dia_all, turnPlayer)
                 while flag == False:
                     print(EMsg)
-                    next_posi = str(input())
+                    next_posi = str(raw_input())
                     flag, EMsg = next_posi_check(next_posi, next_dia_all, turnPlayer)
             else:
-                pass
+                next_posi = get_next_posi_Randam(next_dia_all, turnPlayer)
+                print(next_posi+"を着手します。")
             
     #手数をインクリメント    
     tempo += 1
@@ -374,9 +389,9 @@ while(gameset == False):
                 
     #手番の交代
     if turnPlayer == 1:
-        turnPlayer = 1
-    else:
         turnPlayer = 2
+    else:
+        turnPlayer = 1
 
 Blackcount, Whitecount = stone_count_check(diagrams[:,:,tempo])
 if Blackcount > Whitecount:

@@ -31,6 +31,7 @@ columnList = {'a':0,'b':1,'c':2,'d':3,'e':4,'f':5,'g':6,'h':7}
 rowList = {'1':0,'2':1,'3':2,'4':3,'5':4,'6':5,'7':6,'8':7}
 Inv_columnList = {v:k for k, v in columnList.items()}
 Inv_rowList = {v:k for k, v in rowList.items()}
+win = [0,0]
              
 #対局条件設定
 print("対局条件を入力してください。")
@@ -81,7 +82,7 @@ for i in range(0, vs_count):
                 if vs_count == 1:
                     print("打つ場所がないのでパスとなります。")
         else:
-            #show_position(columnArray, rowArray, next_dia_all)
+            #fm.show_position(columnArray, rowArray, next_dia_all)
             passtempo = False
             if turnPlayer == 1:
                 if vs_count == 1:
@@ -156,11 +157,14 @@ for i in range(0, vs_count):
     Blackcount, Whitecount = fm.stone_count_check(diagrams[:,:,tempo])
     if Blackcount > Whitecount:
         print(str(Blackcount) + " VS " + str(Whitecount) + " で先手●の勝ちです")
+        win[0] += 1
     elif Whitecount > Blackcount:
         print(str(Whitecount) + " VS " + str(Blackcount) + " で後手○の勝ちです")
+        win[1] += 1
     else:
         print("引き分けです")
     
+    print("先手" + str(win[0]) + "勝 VS 後手" + str(win[1]) + "勝")
     log.to_csv('log\\' + ID +'.csv', index=False)
     
 

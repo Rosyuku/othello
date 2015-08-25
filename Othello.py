@@ -90,6 +90,8 @@ for i in range(0, vs_count):
                 if con_fir == 1:
                     print("石を置く位置を入力してください")
                     next_posi = str(raw_input())
+                    if next_posi == 'quit':
+                        break
                     flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, turnPlayer)
                     while flag == False:
                         print(EMsg)
@@ -105,6 +107,8 @@ for i in range(0, vs_count):
                 if con_sec == 1:
                     print("石を置く位置を入力してください")
                     next_posi = str(raw_input())
+                    if next_posi == 'quit':
+                        break
                     flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, turnPlayer)
                     while flag == False:
                         print(EMsg)

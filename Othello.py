@@ -9,7 +9,8 @@ import numpy as np
 import pandas as pd
 import random
 import FunctionModules as fm
-import datetime     
+import datetime
+import os   
 
 #CPUアルごリズム_ランダム
 def get_next_posi_Randam(next_dia_all, turn):
@@ -37,14 +38,14 @@ win = [0,0]
 print("対局条件を入力してください。")
 print("先攻 1：人間　2：CPU")
 print('  ---------------------------------')
-con_fir = input()
+con_fir = int(input())
 print("後攻 1：人間　2：CPU")
 print('  ---------------------------------')
-con_sec = input()
+con_sec = int(input())
 if con_fir == 2 and con_sec == 2:
     print("対局回数を入力してください。")
     print('  ---------------------------------')
-    vs_count = input()
+    vs_count = int(input())
 else:
     vs_count = 1
 print(condition[str(con_fir)] + " VS " + condition[str(con_sec)] + " でゲームを始めます")
@@ -89,13 +90,13 @@ for i in range(0, vs_count):
                     print("先手の手番です。")
                 if con_fir == 1:
                     print("石を置く位置を入力してください")
-                    next_posi = str(raw_input())
+                    next_posi = input()
                     if next_posi == 'quit':
                         break
                     flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, turnPlayer)
                     while flag == False:
                         print(EMsg)
-                        next_posi = str(raw_input())
+                        next_posi = input()
                         flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, turnPlayer)
                 else:
                     next_posi = get_next_posi_Randam(next_dia_all, turnPlayer)
@@ -106,13 +107,13 @@ for i in range(0, vs_count):
                     print("後手の手番です。")
                 if con_sec == 1:
                     print("石を置く位置を入力してください")
-                    next_posi = str(raw_input())
+                    next_posi = input()
                     if next_posi == 'quit':
                         break
                     flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, turnPlayer)
                     while flag == False:
                         print(EMsg)
-                        next_posi = str(raw_input())
+                        next_posi = input()
                         flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, turnPlayer)
                 else:
                     next_posi = get_next_posi_Randam(next_dia_all, turnPlayer)
@@ -130,7 +131,7 @@ for i in range(0, vs_count):
             
         data = [ID, tempo, turnPlayer, next_posi, len(next_diaList), Blackcount, Whitecount, con_fir, con_sec, superiorityPlayer]
         data.extend(diagrams[:,:,tempo].T.reshape(64))
-        add_log = pd.Series(data = data, index = log.columns, name = [tempo])
+        add_log = pd.Series(data = data, index = log.columns, name = tempo)
         log = log.append(add_log)
         
         #手数をインクリメント    
@@ -169,7 +170,7 @@ for i in range(0, vs_count):
         print("引き分けです")
     
     print("先手" + str(win[0]) + "勝 VS 後手" + str(win[1]) + "勝")
-    log.to_csv('log\\' + ID +'.csv', index=False)
+    log.to_csv(os.path.join('log', ID + '.csv'), index=False)
     
 
 

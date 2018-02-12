@@ -4,15 +4,14 @@ Spyder Editor
 
 This is a temporary script file.
 """
-import sys
 import numpy as np
 import pandas as pd
-import random
 import FunctionModules as fm
 import datetime
 import os
 
-import Algorithm         
+import Algorithm      
+from joblib import Parallel, delayed   
 
 class Othello:
     
@@ -33,6 +32,7 @@ class Othello:
                  alg_fir=None,
                  alg_sec=None,
                  vs_count=None,
+                 n_jobs=1
                  ):
         
         self.interactive = interactive
@@ -41,6 +41,7 @@ class Othello:
         self.alg_fir = alg_fir
         self.alg_sec = alg_sec
         self.vs_count = vs_count
+        self.n_jobs = n_jobs
     
     def condition_init(self):
 
@@ -117,7 +118,7 @@ class Othello:
                             next_posi = input()
                             flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, self.turnPlayer)
                     else:
-                        next_posi = self.alg_fir.get_next_posi_Randam(self.diagrams, next_dia_all, self.turnPlayer)
+                        next_posi = self.alg_fir.get_next_posi_Random(self.diagrams, next_dia_all, self.turnPlayer)
                         if self.vs_count == 1:
                             print(next_posi+"を着手します。")
                 else:
@@ -134,7 +135,7 @@ class Othello:
                             next_posi = input()
                             flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, self.turnPlayer)
                     else:
-                        next_posi = self.alg_sec.get_next_posi_Randam(self.diagrams, next_dia_all, self.turnPlayer)
+                        next_posi = self.alg_sec.get_next_posi_Random(self.diagrams, next_dia_all, self.turnPlayer)
                         if self.vs_count == 1:
                             print(next_posi+"を着手します。")
                     
@@ -193,10 +194,9 @@ class Othello:
     def start(self):
         
         self.condition_init()
-        for i in range(self.vs_count):
-            self.one_game()
+        Parallel(n_jobs=self.n_jobs, verbose=10)(delayed(self.one_game)() for i in range(self.vs_count))        
 
 if __name__ == "__main__":
     
-    othello = Othello(False, 2, 2, Algorithm.random_choice(), Algorithm.random_choice(), 10)
+    othello = Othello(False, 2, 2, Algorithm.random_choice(), Algorithm.random_choice(), 8933, 4)
     othello.start()

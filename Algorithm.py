@@ -18,7 +18,7 @@ class random_choice:
     def __init__(self):
         pass
     
-    def get_next_posi_Randam(self, diagrams, next_dia_all, turn):
+    def get_next_posi_Random(self, diagrams, next_dia_all, turn):
         next_posi_enable = []
         for i in range(0,8):
             for j in range(0,8):

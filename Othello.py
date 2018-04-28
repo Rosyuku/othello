@@ -90,6 +90,7 @@ class Othello:
             if self.vs_count == 1:
                 fm.show_position(self.columnArray, self.rowArray, self.diagrams[:,:,self.tempo])
             next_dia_all, next_diaList = fm.search_newstone_position_all(self.diagrams[:,:,self.tempo], self.turnPlayer)
+#            print(next_diaList[0])
             if len(next_diaList) == 0:
                 if self.passtempo == True:
                     if self.vs_count == 1:                
@@ -118,7 +119,7 @@ class Othello:
                             next_posi = input()
                             flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, self.turnPlayer)
                     else:
-                        next_posi = self.alg_fir.get_next_posi_Random(self.diagrams, next_dia_all, self.turnPlayer)
+                        next_posi = self.alg_fir.get_next_posi(self.diagrams, next_dia_all, next_diaList, self.turnPlayer)
                         if self.vs_count == 1:
                             print(next_posi+"を着手します。")
                 else:
@@ -135,7 +136,7 @@ class Othello:
                             next_posi = input()
                             flag, EMsg = fm.next_posi_check(next_posi, next_dia_all, self.turnPlayer)
                     else:
-                        next_posi = self.alg_sec.get_next_posi_Random(self.diagrams, next_dia_all, self.turnPlayer)
+                        next_posi = self.alg_sec.get_next_posi(self.diagrams, next_dia_all, next_diaList, self.turnPlayer)
                         if self.vs_count == 1:
                             print(next_posi+"を着手します。")
                     
@@ -198,5 +199,5 @@ class Othello:
 
 if __name__ == "__main__":
     
-    othello = Othello(False, 2, 2, Algorithm.random_choice(), Algorithm.random_choice(), 8933, 4)
+    othello = Othello(False, 1, 2, Algorithm.random_choice(), Algorithm.max_choice(), 1, 1)
     othello.start()

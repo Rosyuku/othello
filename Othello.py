@@ -32,7 +32,8 @@ class Othello:
                  alg_fir=None,
                  alg_sec=None,
                  vs_count=None,
-                 n_jobs=1
+                 n_jobs=1,
+                 folder='log',
                  ):
         
         self.interactive = interactive
@@ -42,7 +43,11 @@ class Othello:
         self.alg_sec = alg_sec
         self.vs_count = vs_count
         self.n_jobs = n_jobs
-    
+        self.folder = folder
+        
+        if not os.path.isdir(self.folder):
+            os.mkdir(self.folder)
+            
     def condition_init(self):
 
         if self.interactive == True:
@@ -190,7 +195,7 @@ class Othello:
             print("引き分けです")
         
         print("先手" + str(self.win[0]) + "勝 VS 後手" + str(self.win[1]) + "勝")
-        self.log.to_csv(os.path.join('log', self.ID + '.csv'), index=False)
+        self.log.to_csv(os.path.join(self.folder, self.ID + '.csv'), index=False)
         
     def start(self):
         
@@ -199,5 +204,5 @@ class Othello:
 
 if __name__ == "__main__":
     
-    othello = Othello(False, 2, 2, Algorithm.max_choice(), Algorithm.max_choice(), 1, 1)
+    othello = Othello(False, 2, 2, Algorithm.max_choice(), Algorithm.max_choice(), 1, 1, folder='test')
     othello.start()

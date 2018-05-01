@@ -267,7 +267,7 @@ def next_posi_check(next_posi, next_dia, turnPlayer):
         return False, ErrMSG
     elif next_posi[1:] != '1' and next_posi[1:] != '2' and next_posi[1:] != '3' and next_posi[1:] != '4'\
     and next_posi[1:] != '5' and next_posi[1:] != '6' and next_posi[1:] != '7' and next_posi[1:] != '8':
-        ErrMSG = "先頭の文字は1,2,3,4,5,6,7,8のいずれかを入力してください。"
+        ErrMSG = "後尾の文字は1,2,3,4,5,6,7,8のいずれかを入力してください。"
         return False, ErrMSG
     elif turnPlayer == 1 and next_dia[int(rowList[next_posi[1:]]),int(columnList[next_posi[:1]])] == 5:
         return True,  ErrMSG
@@ -279,12 +279,6 @@ def next_posi_check(next_posi, next_dia, turnPlayer):
         
 #石の数をカウントする
 def stone_count_check(diagram):
-    black = 0
-    white = 0
-    for i in range(0,8):
-        for j in range(0,8):
-            if diagram[i,j] == 1:
-                black += 1
-            elif diagram[i,j] == 2:
-                white += 1
+    black = (diagram == 1).sum()
+    white = (diagram == 2).sum()
     return black, white

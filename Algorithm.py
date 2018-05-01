@@ -37,11 +37,14 @@ class max_choice:
         next_count = []
         for next_dia in next_diaList:
             next_count.append((next_dia==turn).sum() + (next_dia==turn+2).sum() + (next_dia==turn+4).sum())
-            
-        target = np.array(next_count).argmax()
         
+        next_count = np.array(next_count)
+        targets = np.where(next_count == next_count.max())
+        
+        target = random.choice(targets[0])
         next_dia = next_diaList[target]
         tmp = np.where(next_dia == turn+4)
+        
         next_posi = str(Inv_columnList[tmp[1][0]])+str(Inv_rowList[tmp[0][0]])
 
         return next_posi

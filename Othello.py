@@ -199,5 +199,5 @@ class Othello:
 
 if __name__ == "__main__":
     
-    othello = Othello(False, 1, 2, Algorithm.random_choice(), Algorithm.max_choice(), 1, 1)
+    othello = Othello(False, 2, 2, Algorithm.max_choice(), Algorithm.max_choice(), 1, 1)
     othello.start()
